@@ -13,10 +13,10 @@ module.exports = (app) => {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(logger('dev'));
     app.use(express.json());
-    app.use(express.static('public'))
+    app.use(express.static('public'));
     app.use(express.urlencoded({extended: false}));
     app.use(cookieParser());
-    app.use(jwt({ secret: process.env.JWT_SECRET}).unless({path: ['/api/login', '/api/otp']}));
+    app.use('/api', jwt({ secret: process.env.JWT_SECRET}).unless({path: ['/api/login', '/api/otp']}));
 
     if (process.env.NODE_ENV !== 'production') {
         app.use(cors());

@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     // catch 404
     app.use((req, res, next) => {
-        res.status(404).send('Not found');
+        res.sendFile('index.html', {root: __dirname + '/../public'});
     });
 
     // error handler

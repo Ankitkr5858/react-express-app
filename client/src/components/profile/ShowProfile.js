@@ -17,7 +17,7 @@ class ShowProfile extends React.Component {
     render() {
         const {user} = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div>
                 <h2>User profile</h2>
                 <dl>
                     <dt>Email</dt>

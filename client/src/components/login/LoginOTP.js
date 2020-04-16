@@ -35,7 +35,7 @@ class LoginOTP extends React.Component {
         const {error} = this.props;
 
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div>
                 <h2>OTP</h2>
                 <p>We have sent you an email with One Time Password. Please, enter it below in order to login.</p>
                 {error && <div className="alert alert-danger">{error}</div>}

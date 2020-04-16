@@ -34,7 +34,7 @@ class LoginEmail extends React.Component {
         const {email} = this.state;
         const {error} = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div>
                 <h2>Login</h2>
                 {error && <div className="alert alert-danger">{error}</div>}
                 <form name="form" onSubmit={this.handleSubmit}>

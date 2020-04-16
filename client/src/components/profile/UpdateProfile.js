@@ -30,7 +30,7 @@ class UpdateProfile extends React.Component {
         const {error} = this.props;
 
         return (
-            <div className="col-md-6 col-md-offset-3">
+            <div>
                 <h2>Update Profile</h2>
                 {error && <div className="alert alert-danger">{error}</div>}
                 <form name="form" onSubmit={this.handleSubmit}>

@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import {history} from './history';
 import {errorActions} from "./actions/error.actions";
 import {connect} from "react-redux";
-
+import "./App.css"
 
 class App extends React.Component {
     constructor(props) {
@@ -23,8 +23,8 @@ class App extends React.Component {
     render() {
         return (
             <div className="jumbotron">
-                <div className="container">
-                    <div className="col-sm-8 col-sm-offset-2">
+                <div className="container text-center">
+                    <div className="jumbotron-card text-center">
                         <Router history={history}>
                             <Switch>
                                 <Route path="/login" component={LoginEmail}/>

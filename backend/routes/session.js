@@ -1,5 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
+const jwt = require('jsonwebtoken');
 
 const SessionService = require('../services/SessionService');
 
@@ -12,7 +13,8 @@ router.post('/login', asyncHandler(async (req, res, next) => {
 
 router.post('/otp', asyncHandler(async (req, res, next) => {
     const user = await SessionService.loginWithOTP(req.body.otp);
-    return res.send(user);
+    const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    res.send({accessToken});
 }));
 
 module.exports = router;

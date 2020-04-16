@@ -1,7 +1,9 @@
 const sessionRoute = require('../routes/session');
+const usersRoute = require('../routes/users');
 
 module.exports = (app) => {
     app.use('/', sessionRoute);
+    app.use('/user', usersRoute);
 
     // catch 404
     app.use((req, res, next) => {

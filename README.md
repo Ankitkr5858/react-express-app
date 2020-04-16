@@ -17,11 +17,18 @@ docker-compose -f docker-compose.dev.yml up -d
 In order to run backend part of the application:
 
 ```
-pushd ./backend
+cd ./backend
 cp .env.example .env
 yarn install
 yarn start
-popd
 ```
 
 ## Client
+
+In order to run client part of the application:
+
+```
+cd ./client
+yarn install
+yarn start
+```

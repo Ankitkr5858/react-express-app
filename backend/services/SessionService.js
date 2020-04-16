@@ -1,5 +1,4 @@
 const {generateOTP} = require('../helpers/otp_helpers');
-
 const {AuthenticationError} = require('../errors');
 
 const emailValidator = require('email-validator');
@@ -12,36 +11,28 @@ class SessionService {
         }
 
         email = email.trim();
-        const user = await User.findOne({email: email});
+        let user = await User.findOne({email: email});
 
         if (!user) {
-            const newUser = await this.createUser(email);
-            return newUser;
-        } else {
-            return user;
+            user = await User.create({email: email});
         }
+
+        this.sendOTP(user);
+        return user;
     }
 
     async loginWithOTP(otp) {
         if (otp !== null && otp.trim() !== '') {
-            const user = User.findOne({otp: otp.trim()});
+            const user = await User.findOne({otp: otp.trim()});
             if (!user) {
                 throw new AuthenticationError('Invalid OTP');
             }
             user.otp = null;
-            return user.save((err) => {
-                if (err) {
-                    throw err;
-                }
-                return user;
-            })
+            await user.save();
+            return user;
+        } else {
+            throw new AuthenticationError('Please, provide OTP');
         }
-    }
-
-    async createUser(email) {
-        const user =  await User.create({email: email});
-        this.sendOTP(user);
-        return user;
     }
 
     async sendOTP(user) {

@@ -1,4 +1,4 @@
-const {generateOTP} = require('../helpers/otp_helpers');
+const {generateOTP} = require('../helpers');
 const {AuthenticationError} = require('../errors');
 
 const emailValidator = require('email-validator');

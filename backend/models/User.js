@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {generateReferralCode} = require('../helpers/referral_code_helpers');
+const {generateReferralCode} = require('../helpers');
 
 const userSchema = mongoose.Schema({
         email: {

@@ -1,17 +1,36 @@
 const nodeMailer = require("nodemailer");
 const Email = require('email-templates');
 
+/**
+ * Service for all email sending.
+ *
+ * @class EmailService
+ * @constructor
+ */
 class EmailService {
+
+    /**
+     * Sends OTP email
+     * @param {mongoose.Schema} user - mongoose model.
+     * @return
+     */
     async otp(user) {
-        this.sendEmail('otp', user.email, {otp: user.otp});
+        this._sendEmail('otp', user.email, {otp: user.otp});
     }
 
-    async sendEmail(template, receiver, locals) {
+    /**
+     * Initiates method sending
+     * @param {string} template - of email template.
+     * @param {string} receiver - email of receiver user.
+     * @param {object} locals - local variables, which are supplied for email template.
+     * @return
+     */
+    async _sendEmail(template, receiver, locals) {
         const email = new Email({
             message: {
-                from: `Ankit from React App <${this.sender()}>`
+                from: `Ankit from React App <${this._sender()}>`
             },
-            transport: this.smtpTransport()
+            transport: this._smtpTransport()
         });
 
         await email.send({
@@ -21,23 +40,23 @@ class EmailService {
         }).catch(console.error);
     }
 
-    smtpTransport() {
+    _smtpTransport() {
         return nodeMailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
-                user: this.sender(),
-                pass: this.password()
+                user: this._sender(),
+                pass: this._password()
             }
         });
     }
 
-    sender() {
+    _sender() {
         return process.env.EMAIL_SENDER;
     }
 
-    password() {
+    _password() {
         return process.env.EMAIL_PASSWORD;
     }
 }

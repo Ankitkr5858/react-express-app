@@ -1,9 +1,11 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const {generateReferralCode} = require('../helpers/referral_code_helpers');
 
-var userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     email: {
         type: String,
-        required: true
+        required: true,
+        lowercase: true
     },
     firstName: {
         type: String
@@ -17,7 +19,15 @@ var userSchema = mongoose.Schema({
     },
     invitedByReferralCode: {
         type: String
+    },
+    otp: {
+        type: String
     }
+});
+
+userSchema.pre('validate', function(next) {
+    if (this.isNew) this.referralCode = generateReferralCode();
+    next();
 });
 
 module.exports = mongoose.model('user', userSchema);

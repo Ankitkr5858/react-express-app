@@ -15,8 +15,7 @@ module.exports = (app) => {
 
     // error handler
     app.use((err, req, res, next) => {
-        res.status(err.status || 500);
-        res.status(500).send({error: err.message || 'Something went wrong' });
+        res.status(err.status || 500).send({error: err.message || 'Something went wrong' });
     });
 
     return app;

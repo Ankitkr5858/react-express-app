@@ -13,6 +13,7 @@ module.exports = (app) => {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(logger('dev'));
     app.use(express.json());
+    app.use(express.static('public'))
     app.use(express.urlencoded({extended: false}));
     app.use(cookieParser());
     app.use(jwt({ secret: process.env.JWT_SECRET}).unless({path: ['/login', '/otp']}));

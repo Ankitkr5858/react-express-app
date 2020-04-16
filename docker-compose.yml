@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+  app:
+    build:
+      context: ./
+    environment:
+      JWT_SECRET: secret-key
+      DATABASE_URL: mongodb://mongo/reactExpressApp
+      EMAIL_SENDER: ankit.react@gmail.com
+      EMAIL_PASSWORD: ankit-react-express-js-app
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo

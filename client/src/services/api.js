@@ -1,5 +1,3 @@
-// import config from 'config';
-
 const authorizationHeader = () => {
     const userData = JSON.parse(localStorage.getItem('user') || "{}");
     return {'Authorization': `Bearer ${userData.accessToken}`}
@@ -11,18 +9,14 @@ const json = (response) => {
 };
 
 class API {
-    constructor(uri) {
-        this.uri = uri
-    }
-
     get(path, headers = {}) {
-        return fetch(`${this.uri}/${path}`, {
+        return fetch(`/api/${path}`, {
             headers: {...authorizationHeader(), ...headers}
         }).then(json)
     }
 
     post(path, body, headers = {}) {
-        return fetch(`${this.uri}/${path}`, {
+        return fetch(`/api/${path}`, {
             method: 'POST',
             headers: {...authorizationHeader(), 'Content-Type': 'application/json', ...headers},
             body: JSON.stringify(body)
@@ -30,7 +24,7 @@ class API {
     }
 
     patch(path, body, headers = {}) {
-        return fetch(`${this.uri}/${path}`, {
+        return fetch(`/api/${path}`, {
             method: 'PATCH',
             headers: {...authorizationHeader(), 'Content-Type': 'application/json', ...headers},
             body: JSON.stringify(body)
@@ -38,5 +32,4 @@ class API {
     }
 }
 
-//export default new API(config.get('apiHost'));
-export default new API('http://localhost:3000');
+export default new API();

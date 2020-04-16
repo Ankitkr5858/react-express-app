@@ -1,6 +1,9 @@
 const sessionRoute = require('../routes/session');
 const usersRoute = require('../routes/users');
 
+/**
+ * Initiates all Express Routes and error handlers
+ */
 module.exports = (app) => {
     app.use('/', sessionRoute);
     app.use('/user', usersRoute);

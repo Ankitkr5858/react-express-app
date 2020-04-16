@@ -3,6 +3,7 @@ const {AuthenticationError} = require('../errors');
 
 const emailValidator = require('email-validator');
 const User = require('../models/User');
+const EmailService = require('./EmailService');
 
 class SessionService {
     async login(email) {
@@ -37,12 +38,9 @@ class SessionService {
 
     async sendOTP(user) {
         user.otp = generateOTP();
-        return await user.save((err) => {
-            if (err) {
-                throw err;
-            }
-            // TODO: send OTP
-        })
+        await user.save();
+        EmailService.otp(user);
+        return user;
     }
 }
 

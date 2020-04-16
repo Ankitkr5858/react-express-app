@@ -1,4 +1,16 @@
-# react-express-app
+# React/Express application
+
+## Prerequisites
+
+Dependencies necessary for application:
+* docker & docker-compose
+* nodejs & npm
+
+## Setup
+
+```
+docker-compose up -d
+```
 
 ## Backend
 

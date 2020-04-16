@@ -1,6 +1,10 @@
 const authorizationHeader = () => {
     const userData = JSON.parse(localStorage.getItem('user') || "{}");
-    return {'Authorization': `Bearer ${userData.accessToken}`}
+    if (userData.accessToken) {
+        return {'Authorization': `Bearer ${userData.accessToken}`}
+    } else {
+        return {}
+    }
 };
 
 const json = (response) => {

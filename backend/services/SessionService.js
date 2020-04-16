@@ -1,8 +1,10 @@
+const jwt = require('jsonwebtoken');
 const {generateOTP} = require('../helpers');
 const {AuthenticationError} = require('../errors');
 
 const emailValidator = require('email-validator');
-const User = require('../models/User');
+
+const UserService = require('./UserService');
 const EmailService = require('./EmailService');
 
 class SessionService {
@@ -12,10 +14,10 @@ class SessionService {
         }
 
         email = email.trim();
-        let user = await User.findOne({email: email});
+        let user = await UserService.findByEmail(email);
 
         if (!user) {
-            user = await User.create({email: email});
+            user = await UserService.create(email);
         }
 
         this.sendOTP(user);
@@ -24,21 +26,19 @@ class SessionService {
 
     async loginWithOTP(otp) {
         if (otp !== null && otp.trim() !== '') {
-            const user = await User.findOne({otp: otp.trim()});
+            const user = await UserService.findByOTP(otp.trim());
             if (!user) {
                 throw new AuthenticationError('Invalid OTP');
             }
-            user.otp = null;
-            await user.save();
-            return user;
+            await UserService.update(user, {otp: null});
+            return jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         } else {
             throw new AuthenticationError('Please, provide OTP');
         }
     }
 
     async sendOTP(user) {
-        user.otp = generateOTP();
-        await user.save();
+        await UserService.update(user, {otp: generateOTP()});
         EmailService.otp(user);
         return user;
     }

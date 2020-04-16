@@ -7,7 +7,18 @@ const emailValidator = require('email-validator');
 const UserService = require('./UserService');
 const EmailService = require('./EmailService');
 
+/**
+ * Service for all authentication logic.
+ *
+ * @class SessionService
+ * @constructor
+ */
 class SessionService {
+    /**
+     * Initiates login process
+     * @param {string} email - user email.
+     * @return {mongoose.Model}
+     */
     async login(email) {
         if (!emailValidator.validate(email)) {
             throw new AuthenticationError('Email is invalid');
@@ -20,10 +31,15 @@ class SessionService {
             user = await UserService.create(email);
         }
 
-        this.sendOTP(user);
+        this._sendOTP(user);
         return user;
     }
 
+    /**
+     * Returns user access token if OTP code is correct
+     * @param {string} otp
+     * @return {string} access token
+     */
     async loginWithOTP(otp) {
         if (otp !== null && otp.trim() !== '') {
             const user = await UserService.findByOTP(otp.trim());
@@ -37,7 +53,12 @@ class SessionService {
         }
     }
 
-    async sendOTP(user) {
+    /**
+     * Generates OTP code for user and sends it in an email
+     * @param {mongoose.Model} user.
+     * @return {mongoose.Model}
+     */
+    async _sendOTP(user) {
         await UserService.update(user, {otp: generateOTP()});
         EmailService.otp(user);
         return user;

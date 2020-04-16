@@ -12,7 +12,6 @@ class EmailService {
     /**
      * Sends OTP email
      * @param {mongoose.Schema} user - mongoose model.
-     * @return
      */
     async otp(user) {
         this._sendEmail('otp', user.email, {otp: user.otp});
@@ -23,7 +22,6 @@ class EmailService {
      * @param {string} template - of email template.
      * @param {string} receiver - email of receiver user.
      * @param {object} locals - local variables, which are supplied for email template.
-     * @return
      */
     async _sendEmail(template, receiver, locals) {
         const email = new Email({

@@ -1,3 +1,5 @@
+const {ServiceError} = require('../errors');
+
 const User = require('../models/User');
 
 /**
@@ -44,12 +46,28 @@ class UserService {
     }
 
     /**
+     * Finds user by referral code
+     * @param {string} code - referral code
+     * @return {mongoose.Model}
+     */
+    async findByReferralCode(code) {
+        return User.findOne({referralCode: code});
+    }
+
+    /**
      * Updates user with new attributes
      * @param {mongoose.Model} user.
      * @param {object} data - new user attributes
      * @return {mongoose.Model}
      */
     async update(user, data) {
+        if (data.invitedByReferralCode && data.invitedByReferralCode !== '') {
+            const inviter = await this.findByReferralCode(data.invitedByReferralCode.trim());
+            if (!inviter) {
+                throw new ServiceError('Invalid referral code');
+            }
+        }
+
         for (const [key, value] of Object.entries(data)) {
             user[key] = value;
         }

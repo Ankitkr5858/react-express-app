@@ -5,4 +5,11 @@ class AuthenticationError extends Error {
     }
 }
 
-module.exports = {AuthenticationError};
+class ServiceError extends Error {
+    constructor(message) {
+        super(message);
+        this.status = 422;
+    }
+}
+
+module.exports = {AuthenticationError, ServiceError};

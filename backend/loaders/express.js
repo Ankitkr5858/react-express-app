@@ -15,8 +15,11 @@ module.exports = (app) => {
     app.use(express.json());
     app.use(express.urlencoded({extended: false}));
     app.use(cookieParser());
-    app.use(cors());
     app.use(jwt({ secret: process.env.JWT_SECRET}).unless({path: ['/login', '/otp']}));
+
+    if (process.env.NODE_ENV !== 'production') {
+        app.use(cors());
+    }
 
     return app;
 };

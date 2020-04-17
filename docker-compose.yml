@@ -13,7 +13,8 @@ services:
       JWT_SECRET: secret-key
       DATABASE_URL: mongodb://mongo/reactExpressApp
       EMAIL_SENDER: ankit.react@gmail.com
-      EMAIL_PASSWORD: ankit-react-express-js-app
+      MAILGUN_KEY:
+      MAILGUN_DOMAIN:
     ports:
       - 3000:3000
     depends_on:

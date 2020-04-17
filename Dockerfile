@@ -11,7 +11,7 @@ FROM node:12-alpine
 
 WORKDIR /app
 COPY backend/package.json /app/package.json
-COPY client/yarn.lock /client/yarn.lock
+COPY backend/yarn.lock /app/yarn.lock
 RUN yarn install
 COPY ./backend /app
 COPY --from=client_builder /client/build /app/public

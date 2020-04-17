@@ -1,14 +1,18 @@
 import React from 'react';
 import {Redirect, Route} from 'react-router-dom';
+import {connect} from "react-redux";
 
-export const ProtectedRoute = ({component: Component, ...rest}) => {
-    const userData = JSON.parse(localStorage.getItem('user') || "{}");
-
+export const ProtectedRoute = ({component: Component, user, ...rest}) => {
     return (<Route {...rest} render={props => (
-        userData.accessToken
+        user && user.accessToken
             ? <Component {...props} />
             : <Redirect to={{pathname: '/login', state: {from: props.location}}}/>
     )}/>)
 };
 
-export default ProtectedRoute;
+function mapState(state) {
+    const {user} = state.authenticationReducer;
+    return {user};
+}
+
+export default connect(mapState, {})(ProtectedRoute);

@@ -7,9 +7,13 @@ class UpdateProfile extends React.Component {
         super(props);
 
         const {invitedByReferralCode} = props;
-        this.state = {
-            user: Object.assign({invitedByReferralCode}, this.props.user)
-        };
+        const user = Object.assign({}, this.props.user);
+
+        if (invitedByReferralCode) {
+            user.invitedByReferralCode = invitedByReferralCode;
+        }
+
+        this.state = {user};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,7 +69,6 @@ function mapState(state) {
     const {user} = state.authenticationReducer;
     const {error} = state.errorReducer;
     const {invitedByReferralCode} = state.referralCodeReducer;
-
     return {user, error, invitedByReferralCode};
 }
 

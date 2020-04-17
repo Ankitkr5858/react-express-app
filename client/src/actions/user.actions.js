@@ -26,15 +26,13 @@ function loginWithOTP(otp) {
         userService.loginWithOTP(otp)
             .then(
                 user => {
-                    dispatch({type: AuthenticationConstants.OTP_SUCCESS, accessToken: user.accessToken});
                     deleteError();
-                    const a = userService.userData().isProfileComplete
-                    debugger
-                    if (a) {
+                    if (userService.userData().isProfileComplete) {
                         history.push('/profile');
                     } else {
                         history.push('/profile/edit');
                     }
+                    dispatch({type: AuthenticationConstants.OTP_SUCCESS, accessToken: user.accessToken});
                 },
                 error => {
                     dispatch({type: AuthenticationConstants.OTP_FAILURE, error});
@@ -72,10 +70,15 @@ function logoutAndRedirect() {
     return {type: AuthenticationConstants.LOGOUT};
 }
 
+function persistReferralCode(code) {
+    return {type: UserConstants.REFERRAL_CODE_PERSISTED, invitedByReferralCode: code}
+}
+
 export const userActions = {
     login,
     logout,
     logoutAndRedirect,
     loginWithOTP,
-    updateProfile
+    updateProfile,
+    persistReferralCode
 };

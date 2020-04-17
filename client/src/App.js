@@ -9,6 +9,7 @@ import {history} from './history';
 import {errorActions} from "./actions/error.actions";
 import {connect} from "react-redux";
 import "./App.css"
+import Invitation from "./components/invitation/Invitation";
 
 class App extends React.Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class App extends React.Component {
                                 <Route path="/otp" component={LoginOTP}/>
                                 <Route path="/profile/edit" component={UpdateProfile}/>
                                 <ProtectedRoute path="/profile" component={ShowProfile}/>
+                                <Route path='/invite/:referralCode' component={Invitation} />
                                 <Redirect from="*" to="/login"/>
                             </Switch>
                         </Router>

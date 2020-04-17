@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions/user.actions'
-import {Link} from "react-router-dom";
 
 class UpdateProfile extends React.Component {
     constructor(props) {
         super(props);
 
+        const {invitedByReferralCode} = props;
         this.state = {
-            user: Object.assign({}, this.props.user)
+            user: Object.assign({invitedByReferralCode}, this.props.user)
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -64,7 +64,9 @@ class UpdateProfile extends React.Component {
 function mapState(state) {
     const {user} = state.authenticationReducer;
     const {error} = state.errorReducer;
-    return {user, error};
+    const {invitedByReferralCode} = state.referralCodeReducer;
+
+    return {user, error, invitedByReferralCode};
 }
 
 const actionCreators = {

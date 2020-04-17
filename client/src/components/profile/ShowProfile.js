@@ -30,7 +30,7 @@ class ShowProfile extends React.Component {
                     <dd>{user.lastName}</dd>
 
                     <dt>You can invite your friends by the following link:</dt>
-                    <dd>TODO</dd>
+                    <dd>{`${window.location.origin}/invite/${this.props.user.referralCode}`}</dd>
 
                     <div className="btn-group" role="group">
                         <Link className="btn btn-primary" to="/profile/edit">Edit Profile </Link>

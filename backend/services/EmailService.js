@@ -1,5 +1,7 @@
 const nodeMailer = require("nodemailer");
 const Email = require('email-templates');
+const { google } = require('googleapis');
+const OAuth2 = google.auth.OAuth2;
 
 /**
  * Service for all email sending.
@@ -39,23 +41,43 @@ class EmailService {
     }
 
     _smtpTransport() {
+        const oauth2Client = new OAuth2(this._clientId(), this._clientSecret(), this._clientRedirectUrl());
+        oauth2Client.setCredentials({refresh_token: this._clientRefreshToken()});
+        const accessToken = oauth2Client.getAccessToken();
+
         return nodeMailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
             auth: {
-                user: this._sender(),
-                pass: this._password()
+                type: "OAuth2",
+                clientId: this._clientId(),
+                clientSecret: this._clientSecret(),
+                refreshToken: this._clientRefreshToken(),
+                accessToken: accessToken,
+                user: this._sender()
             }
         });
     }
 
-    _sender() {
-        return process.env.EMAIL_SENDER;
+    _clientId() {
+        return process.env.EMAIL_CLIENT_ID;
     }
 
-    _password() {
-        return process.env.EMAIL_PASSWORD;
+    _clientRefreshToken() {
+        return process.env.EMAIL_CLIENT_REFRESH_TOKEN;
+    }
+
+    _clientSecret() {
+        return process.env.EMAIL_CLIENT_SECRET;
+    }
+
+    _clientRedirectUrl() {
+        return process.env.EMAIL_CLIENT_REDIRECT_URL;
+    }
+
+    _sender() {
+        return process.env.EMAIL_SENDER;
     }
 }
 

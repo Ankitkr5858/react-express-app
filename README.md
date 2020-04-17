@@ -35,3 +35,15 @@ yarn start
 
 You will be able to access your application in browser under http://localhost:3001.
 Back-end server will be running on http://localhost:3000.
+
+## Running application inside Docker
+
+You can invoke an application inside docker using command:
+
+```
+docker-compose up
+```
+
+which will launch MongoDB and and application inside docker containers.
+Backend and Frontend sides are served together: client side is compiled to static files, which are served from backend.
+

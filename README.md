@@ -20,6 +20,17 @@ In order to run backend part of the application:
 cd ./backend
 cp .env.example .env
 yarn install
+```
+
+You will need to provide data for ENV variables inside `.env` file:
+```
+MAILGUN_KEY=
+MAILGUN_DOMAIN=
+```
+
+and then start server:
+
+```
 yarn start
 ```
 
@@ -46,4 +57,6 @@ docker-compose up
 
 which will launch MongoDB and and application inside docker containers.
 Backend and Frontend sides are served together: client side is compiled to static files, which are served from backend.
+Application will be accessible at `localhost:3000`.
+Make sure all ENV variables are provided in docker-compose.yml file.
 

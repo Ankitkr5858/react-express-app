@@ -36,21 +36,26 @@ class SessionService {
     }
 
     /**
-     * Returns user access token if OTP code is correct
+     * Returns user access token if OTP code is correct and it matches email
+     * @param {string} email
      * @param {string} otp
      * @return {string} access token
      */
-    async loginWithOTP(otp) {
-        if (otp !== null && otp.trim() !== '') {
-            const user = await UserService.findByOTP(otp.trim());
-            if (!user) {
-                throw new AuthenticationError('Invalid OTP');
-            }
-            await UserService.update(user, {otp: null});
-            return jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-        } else {
+    async loginWithOTP(email, otp) {
+        if (!otp || otp === '') {
             throw new AuthenticationError('Please, provide OTP');
         }
+
+        if (!email || email === '') {
+            throw new AuthenticationError('Please, provide email address');
+        }
+
+        const user = await UserService.findByEmailAndOTP(email.trim(), otp.trim());
+        if (!user) {
+            throw new AuthenticationError('Invalid OTP');
+        }
+        await UserService.update(user, {otp: null});
+        return jwt.sign({userId: user._id}, process.env.JWT_SECRET);
     }
 
     /**

@@ -37,12 +37,13 @@ class UserService {
     }
 
     /**
-     * Finds user by OTP code
+     * Finds user by email and OTP code
+     * @param {string} email - user's email address
      * @param {string} otp - user's OTP code
      * @return {mongoose.Model}
      */
-    async findByOTP(otp) {
-        return User.findOne({otp: otp});
+    async findByEmailAndOTP(email, otp) {
+        return User.findOne({email, otp});
     }
 
     /**

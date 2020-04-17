@@ -11,7 +11,7 @@ router.post('/login', asyncHandler(async (req, res, next) => {
 }));
 
 router.post('/otp', asyncHandler(async (req, res, next) => {
-    const accessToken = await SessionService.loginWithOTP(req.body.otp);
+    const accessToken = await SessionService.loginWithOTP(req.body.email, req.body.otp);
     res.send({accessToken});
 }));
 

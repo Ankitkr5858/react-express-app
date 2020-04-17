@@ -6,8 +6,6 @@ class LoginOTP extends React.Component {
     constructor(props) {
         super(props);
 
-        this.props.logout();
-
         this.state = {
             otp: ''
         };

@@ -11,8 +11,8 @@ function login(email) {
     });
 }
 
-function loginWithOTP(otp) {
-    return api.post('otp', {otp}).then(user => {
+function loginWithOTP(email, otp) {
+    return api.post('otp', {email, otp}).then(user => {
         user = {...userData(), ...user};
         localStorage.setItem('user', JSON.stringify(user));
         return user;

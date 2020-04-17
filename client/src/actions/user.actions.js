@@ -23,16 +23,18 @@ function login(email) {
 
 function loginWithOTP(otp) {
     return dispatch => {
-        userService.loginWithOTP(otp)
+        const user = userService.userData();
+
+        userService.loginWithOTP(user.email, otp)
             .then(
-                user => {
+                ({accessToken}) => {
+                    dispatch({type: AuthenticationConstants.OTP_SUCCESS, accessToken: accessToken});
                     deleteError();
-                    if (userService.userData().isProfileComplete) {
+                    if (user.isProfileComplete) {
                         history.push('/profile');
                     } else {
                         history.push('/profile/edit');
                     }
-                    dispatch({type: AuthenticationConstants.OTP_SUCCESS, accessToken: user.accessToken});
                 },
                 error => {
                     dispatch({type: AuthenticationConstants.OTP_FAILURE, error});

@@ -1,7 +1,6 @@
-const nodeMailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 const Email = require('email-templates');
-const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
+const mg = require('nodemailer-mailgun-transport');
 
 /**
  * Service for all email sending.
@@ -41,39 +40,22 @@ class EmailService {
     }
 
     _smtpTransport() {
-        const oauth2Client = new OAuth2(this._clientId(), this._clientSecret(), this._clientRedirectUrl());
-        oauth2Client.setCredentials({refresh_token: this._clientRefreshToken()});
-        const accessToken = oauth2Client.getAccessToken();
-
-        return nodeMailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
+        const auth = {
             auth: {
-                type: "OAuth2",
-                clientId: this._clientId(),
-                clientSecret: this._clientSecret(),
-                refreshToken: this._clientRefreshToken(),
-                accessToken: accessToken,
-                user: this._sender()
+                api_key: this._mailgunKey(),
+                domain: this._mailgunDomain()
             }
-        });
+        };
+        return nodemailer.createTransport(mg(auth));
     }
 
-    _clientId() {
-        return process.env.EMAIL_CLIENT_ID;
+
+    _mailgunKey() {
+        return process.env.MAILGUN_KEY;
     }
 
-    _clientRefreshToken() {
-        return process.env.EMAIL_CLIENT_REFRESH_TOKEN;
-    }
-
-    _clientSecret() {
-        return process.env.EMAIL_CLIENT_SECRET;
-    }
-
-    _clientRedirectUrl() {
-        return process.env.EMAIL_CLIENT_REDIRECT_URL;
+    _mailgunDomain() {
+        return process.env.MAILGUN_DOMAIN;
     }
 
     _sender() {
